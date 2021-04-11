@@ -8,8 +8,6 @@ class ChekiaGrafica():
         self.url = 'https://www.pccomponentes.com/tarjetas-graficas'
         self.urlotra = 'https://www.pccomponentes.com'
         self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-        self.r = requests.request("GET",self.url, headers=self.headers)
-        self.soup = BeautifulSoup(self.r.text, 'html.parser')
         self.todasLasPaginas = []
         self.URLS = []
         self.todasLasPaginasValidas = []
