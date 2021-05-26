@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
+import smtplib
+from email.message import EmailMessage
 
 
 class ChekiaGrafica():
@@ -11,7 +13,6 @@ class ChekiaGrafica():
         self.todasLasPaginas = []
         self.URLS = []
         self.todasLasPaginasValidas = []
-
 
     def dameURLs(self,url):
         r = requests.get(url, headers=self.headers)
@@ -63,11 +64,28 @@ class ChekiaGrafica():
             if self.esValido(pagina):
                 self.todasLasPaginasValidas.append(pagina)
 
+    def smtp_gmail(self,contenido):
+        username = "Nombre usuario"
+        password = "Contraseña"
+        smtp_server = "smtp.gmail.com:587"
+        msg = EmailMessage()
+        msg.set_content(contenido)
+        msg['Subject'] = 'Tarjetas Graficas'
+        msg['From'] = 'Email Origen'
+        msg['To'] = 'Email Destino'
+        server = smtplib.SMTP(smtp_server)
+        server.starttls()
+        server.login(username, password)
+        server.send_message(msg)
+        server.quit()
 
 
 if __name__ == "__main__":
     c = ChekiaGrafica()
     c.trabaja()
     c.todasLasPaginasValidas.sort()
+    contenido = ""
     for pagina in c.todasLasPaginasValidas:
         print(pagina)
+        contenido+=pagina+'\n'
+    c.smtp_gmail(contenido)
